@@ -1,0 +1,47 @@
+[
+	{
+		"nodeid": "1",
+		"text": "查询系统",
+		"backColor": "Gainsboro",
+		"color": "#000000",
+		"selectable": true,
+		"nodes": [
+			{
+				"nodeid": "11",
+				"text": "航班查询",
+				"href":"airplane.html"
+			},
+			{
+				"nodeid": "12",
+				"text": "行李查询",
+				"href":"baggage.html"
+			},
+			{
+				"nodeid": "13",
+				"text": "机场信息查询",
+				"href":"airport.html"
+			},
+			{
+				"nodeid": "14",
+				"text": "航空公司查询",
+				"href":"airline.html"
+			}
+		]
+	},
+	{
+		"text": "信息管理",
+		"backColor": "Gainsboro",
+		"color": "#000000",
+		"selectable": true,
+		"nodes": [
+			{
+				"text": "用户管理",
+				"href":"usermag.html"
+			},
+			{
+				"text": "文档导入",
+				"href":"import.html"
+			}
+		]
+	}
+]

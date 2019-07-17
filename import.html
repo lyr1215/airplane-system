@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <title>航班查询</title>
+
+
+    <link rel="stylesheet" href="js/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="js/bootstrap-select/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="js/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
+    <link rel="stylesheet" href="js/bootstrap-table/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="js/bootstrap-treeview/dist/bootstrap-treeview.min.css">
+    <script src="js/jquery/dist/jquery.min.js"></script>
+    <script src="js/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="js/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+    <script src="js/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <script src="js/bootstrap-treeview/dist/bootstrap-treeview.min.js"></script>
+    <script src="js/base.js"></script>
+    <script src="js/ajaxfileupload.js"></script>
+    <script>
+        $(function(){
+            createTable();
+
+            $("#btnImport").click(function () {
+                createTable();
+            });
+
+        });
+
+
+
+    </script>
+
+    <style type="text/css">
+        html,body{height:auto;}
+        .glyphicon-file{float: right;}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row col-md-12 form-inline">
+        <!--导航栏-->
+        <div class="head">
+            <ul class="breadcrumb">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="query.html">信息管理</a></li>
+                <li class="active">信息导入</li>
+            </ul>
+        </div>
+
+        <form method="post" action="/TomcatTest/UploadServlet" enctype="multipart/form-data">
+            选择航班信息文件:
+            <input type="file" name="uploadFile" />
+            <br/><br/>
+            <input type="submit" value="上传" />
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

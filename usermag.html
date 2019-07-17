@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link rel="stylesheet" href="js/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="js/bootstrap-select/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="js/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
+    <link rel="stylesheet" href="js/bootstrap-table/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="js/bootstrap-treeview/dist/bootstrap-treeview.min.css">
+
+    <script src="js/jquery/dist/jquery.min.js"></script>
+    <script src="js/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="js/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+    <script src="js/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <script src="js/bootstrap-treeview/dist/bootstrap-treeview.min.js"></script>
+    <script src="js/base.js"></script>
+    <script src="js/ajaxfileupload.js"></script>
+    <script>
+        $(function () {
+            createTable();
+
+            $("#btnSearch").click(function () {
+                createTable();
+            });
+
+            $("#btnAdd").click(function () {
+                $("#mymodal").modal('show');
+            });
+
+            $("#btnEdit").click(function () {
+                $("#mymodal1").modal('show');
+            });
+
+            $("#btnDel").click(function () {
+                $("#mymodal2").modal('show');
+            });
+        });
+
+         function createTable() {
+             $("#publish_model").bootstrapTable('destroy');
+             $(window).resize(function () {
+                 $('#publish_model').bootstrapTable('resetView');
+             });
+             $("#publish_model").bootstrapTable({
+                url:baseurl+"getAllMenu",
+                method:"post",
+                pagination:true,//分页
+                sidePagination:'server',//从哪里进行分页
+
+                striped: true,
+                 singleSelect: true,
+                 clickToSelect: true,
+                 pageNumber:1,
+                 pageSize: 5,
+                 pageList: [5, 10, 10],
+
+                 queryParamsType: "limit",
+                 //queryParams: getPageMessage,
+                 minimunCountColumns: 1,
+                // height:$(window).height()*0.85,
+                // queryParams:function(param){
+                //     return{
+                //         'pageSize':param.limit,
+                //         'pageIndex':param.offset,
+                //         'menuname':($("#txtMenuName").val().length==0?'%':$("#txtMenuName").val())
+                //     }
+                // },
+                // responseHandler:function(res){
+                //     return{
+                //         "total":res.total,
+                //         "rows":res.rows
+                //     }
+                // },
+                //contentType:"application/x-www-form-urlencoded;charset=utf-8",//从前台向后台发送的数据的格式和编码
+                columns:[
+                    {field:"id",title:"用户名",align:"center"},//一行花括号表示一列
+                    {field:"name",title:"昵称",align:"center"},
+                    {field:"Email",title:"邮箱",align:"center",
+                        formatter:function (value,row,index) {
+                            return value=="-"?"暂无连接":value;
+                        }
+                    },
+                    {field:"phone",title:"电话号码",align:"center",
+                        formatter:function (value,row,index) {
+                            return "<button class='btn btn-success'>编辑</button>&nbsp;&nbsp;<button class='btn btn-danger'>删除</button>";
+                        }
+                    },
+                    {field:"group",title:"身份",align:"center"}
+                ]
+
+            });
+        }
+    </script>
+    <style>
+        /*div{margin:10px;border:0;padding:0;}*/
+        .btn{float: right;}
+        .table{theadClasses:thead-light;}
+        .iconfont{
+            font-family:"iconfont" !important;
+            font-size:16px;font-style:normal;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-stroke-width: 0.2px;
+            -moz-osx-font-smoothing: grayscale;}
+        .btn1{float:left;margin-top:10px;}
+        .input-group{padding:10px;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row col-md-12 form-inline">
+        <!--导航栏-->
+        <div class="head">
+            <ul class="breadcrumb">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="infomag.html">信息管理</a></li>
+                <li class="active">用户管理</li>
+            </ul>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group input-group-sm">
+                    <span class="input-group-addon">用户名</span>
+                    <input type="text" class="form-control" placeholder="">
+            </div>
+
+            <div class="input-group input-group-sm">
+                    <span class="input-group-addon">昵称</span>
+                    <input type="text" class="form-control" placeholder="">
+            </div>
+
+            <div class="input-group input-group-sm" >
+                    <span class="input-group-addon">用户组</span>
+                    <input type="text" class="form-control">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1">
+                            <span class="caret"></span>
+                            <span class="sr-only">切换下拉菜单</span>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#">全部查询</a></li>
+                            <li><a href="#">普通用户</a></li>
+                            <li><a href="#">管理员</a></li>
+                            <li><a href="#">超级管理员</a></li>
+                        </ul>
+                    </div><!-- /btn-group -->
+            </div><!-- /input-group -->
+
+            <div class="btn">
+                <button id="btnSearch" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span>
+                    查询
+                </button>
+            </div>
+
+            <div class="btn1">
+                <button type="button"  id="btnAdd" data-dismiss="modal">
+                    <span class="iconfont">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="icon" viewBox="0 0 1024 1024"
+                             width="20" height="20"
+                             t="1563194745158" p-id="1213" version="1.1">
+                             <path d="M 512 85.3333 C 276.736 85.3333 85.3333 276.736 85.3333 512 c 0 235.307 191.403 426.667 426.667 426.667 s 426.667 -191.36 426.667 -426.667 c 0 -235.264 -191.403 -426.667 -426.667 -426.667 Z m 213.333 469.333 h -170.667 v 170.667 h -85.3333 v -170.667 H 298.667 v -85.3333 h 170.667 V 298.667 h 85.3333 v 170.667 h 170.667 v 85.3333 Z" p-id="1214" />
+                        </svg>
+                    </span>
+                </button>
+
+                <button type="button" id="btnEdit" data-dismiss="modal">
+                    <span class="iconfont">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="icon" viewBox="0 0 1024 1024"
+                             width="20" height="20"
+                             t="1563194812512" p-id="1334" version="1.1">
+                     <path d="M 857.728 409.131 l 30.6773 -30.6773 a 171.861 171.861 0 0 0 0 -242.859 a 171.861 171.861 0 0 0 -242.859 0 l -30.6773 30.6773 l 242.859 242.859 Z M 554.539 226.603 l -379.947 379.904 l 152.405 30.208 l 318.805 -318.891 Z M 97.92 926.123 c 10.5387 10.5813 25.9413 14.8053 40.4907 11.2213 l 199.595 -49.92 l -33.28 -168.149 l -168.149 -33.3227 l -49.8773 199.595 c -3.62667 14.592 0.597333 29.952 11.2213 40.576 Z M 706.133 378.155 l -318.805 318.891 l 30.1653 152.32 l 379.904 -379.904 Z" p-id="1335" />
+                        </svg>
+                    </span>
+                </button>
+
+                <button type="button" id="btnDel" data-dismiss="modal">
+                    <span class="iconfont">
+                       <svg xmlns="http://www.w3.org/2000/svg"
+                            class="icon" viewBox="0 0 1024 1024"
+                            width="20" height="20"
+                            t="1563194653007" p-id="969" version="1.1">
+                    <path d="M 153.6 814.08 a 106.547 106.547 0 0 0 109.21 103.731 h 447.181 A 106.547 106.547 0 0 0 819.2 814.08 V 338.278 H 153.6 Z" p-id="970" /><path d="M 874.547 179.2 h -279.347 v -32.512 A 45.7216 45.7216 0 0 0 548.147 102.4 H 424.653 a 45.7216 45.7216 0 0 0 -47.0528 44.288 V 179.2 H 98.2528 A 45.7216 45.7216 0 0 0 51.2 223.488 v 13.824 a 45.7216 45.7216 0 0 0 47.0528 44.288 h 776.294 A 45.7216 45.7216 0 0 0 921.6 237.312 v -13.824 a 45.7216 45.7216 0 0 0 -47.0528 -44.288 Z" p-id="971" />
+                </svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div class="table">
+        <table id="publish_model" ></table>
+    </div>
+</div>
+
+<div class="modal fade" id="mymodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">
+                    x
+                </button>
+                <h4 class="modal-title">添加用户</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group row ">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon" >用户名</span>
+                        <input type="text" class="form-control"  size="100">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon" >昵 称</span>
+                        <input type="text" class="form-control"  size="100">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon">密 码</span>
+                        <input type="text" class="form-control" size="100">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon">邮 箱</span>
+                        <input type="text" class="form-control" size="100">
+                    </div>
+                    <div class="input-group input-group-sm" >
+                        <span class="input-group-addon">手机号</span>
+                        <input type="text" class="form-control" size="100">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon">用户组</span>
+                        <input type="text" class="form-control" placeholder="">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btnAddMenu" class="btn btn-primary">添加</button>
+                <button id="btnAddMenu" class="btn btn-danger">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mymodal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">
+                    x
+                </button>
+                <h4 class="modal-title">修改用户信息</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group row ">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon" >用户名</span>
+                        <input type="text" class="form-control"  size="100">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon" >昵 称</span>
+                        <input type="text" class="form-control"  size="100">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon">密 码</span>
+                        <input type="text" class="form-control" size="100">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon">邮 箱</span>
+                        <input type="text" class="form-control" size="100">
+                    </div>
+                    <div class="input-group input-group-sm" >
+                        <span class="input-group-addon">手机号</span>
+                        <input type="text" class="form-control" size="100">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon">用户组</span>
+                        <input type="text" class="form-control" placeholder="">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btnAddMenu" class="btn btn-primary">添加</button>
+                <button id="btnAddMenu" class="btn btn-danger">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mymodal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">
+                    x
+                </button>
+                <h4 class="modal-title">删除用户</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group row ">
+                    <label  class="col-lg-12" >确定要删除该用户吗？</label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btnAddMenu" class="btn btn-primary">确定</button>
+                <button id="btnAddMenu" class="btn btn-danger">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
